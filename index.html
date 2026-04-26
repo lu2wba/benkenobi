@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benkenobi — Chispas &amp; Cables</title>
+  <meta name="description" content="Tech, Maker, Domotica, SDR — Comodoro Rivadavia, Patagonia Argentina">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0f;
+      color: #e0e0e8;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      background: #0d0d18;
+      overflow: hidden;
+    }
+
+    /* REEMPLAZA esta imagen con tu foto del shack */
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.55;
+      display: block;
+    }
+
+    /* Placeholder oscuro cuando no hay foto */
+    .hero-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, #0d0d18 0%, #1a0a2e 50%, #0a1020 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 40px 48px 32px;
+      background: linear-gradient(to top, rgba(10,10,15,0.98) 0%, rgba(10,10,15,0.6) 60%, transparent 100%);
+    }
+
+    .hero-topbar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b1a, #ffcc00, #ff6b1a);
+    }
+
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 48px;
+      color: #ffcc00;
+      letter-spacing: 4px;
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(255,204,0,0.2);
+    }
+
+    .logo span { color: #ff6b1a; }
+
+    .tagline {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px;
+      color: #888;
+      letter-spacing: 3px;
+      margin-top: 8px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 24px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: #555;
+      letter-spacing: 1px;
+    }
+
+    .hero-stat span {
+      color: #ff6b1a;
+      margin-right: 6px;
+    }
+
+    /* NAV */
+    nav {
+      background: #0d0d18;
+      border-bottom: 1px solid #1a1a2e;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      padding: 0 32px;
+    }
+
+    nav a {
+      padding: 14px 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #444;
+      text-decoration: none;
+      text-transform: uppercase;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    nav a:hover { color: #ff6b1a; border-bottom-color: #ff6b1a; }
+    nav a.active { color: #ffcc00; border-bottom-color: #ffcc00; }
+
+    /* MAIN */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 32px;
+    }
+
+    .section-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: #ff6b1a;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1a1a2e;
+    }
+
+    /* PROYECTOS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .project-card {
+      background: #0f0f1a;
+      border: 1px solid #1a1a2e;
+      border-radius: 6px;
+      padding: 20px;
+      border-top: 3px solid #ff6b1a;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .project-card:nth-child(2) { border-top-color: #ffcc00; }
+    .project-card:nth-child(3) { border-top-color: #00c8a0; }
+    .project-card:nth-child(4) { border-top-color: #4da8ff; }
+    .project-card:nth-child(5) { border-top-color: #cc44ff; }
+    .project-card:nth-child(6) { border-top-color: #ff4488; }
+
+    .project-card:hover { transform: translateY(-3px); border-color: #2a2a3e; }
+
+    .project-icon { font-size: 28px; margin-bottom: 12px; }
+
+    .project-title {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      color: #e0e0e8;
+      margin-bottom: 8px;
+    }
+
+    .project-desc {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .project-tag {
+      display: inline-block;
+      background: rgba(255,107,26,0.1);
+      border: 1px solid rgba(255,107,26,0.3);
+      border-radius: 3px;
+      padding: 3px 10px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: #ff6b1a;
+    }
+
+    .project-card:nth-child(2) .project-tag { background: rgba(255,204,0,0.1); border-color: rgba(255,204,0,0.3); color: #ffcc00; }
+    .project-card:nth-child(3) .project-tag { background: rgba(0,200,160,0.1); border-color: rgba(0,200,160,0.3); color: #00c8a0; }
+    .project-card:nth-child(4) .project-tag { background: rgba(77,168,255,0.1); border-color: rgba(77,168,255,0.3); color: #4da8ff; }
+    .project-card:nth-child(5) .project-tag { background: rgba(204,68,255,0.1); border-color: rgba(204,68,255,0.3); color: #cc44ff; }
+    .project-card:nth-child(6) .project-tag { background: rgba(255,68,136,0.1); border-color: rgba(255,68,136,0.3); color: #ff4488; }
+
+    /* TWO COL */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    @media (max-width: 700px) {
+      .two-col { grid-template-columns: 1fr; }
+      .hero { height: 320px; }
+      .logo { font-size: 32px; }
+    }
+
+    .panel {
+      background: #0f0f1a;
+      border: 1px solid #1a1a2e;
+      border-radius: 6px;
+      padding: 20px;
+    }
+
+    /* ARSENAL */
+    .arsenal-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #111122;
+      font-size: 13px;
+    }
+
+    .arsenal-item:last-child { border-bottom: none; }
+    .arsenal-label { color: #555; }
+
+    .arsenal-value {
+      font-family: 'Share Tech Mono', monospace;
+      color: #c8c8d8;
+      text-align: right;
+    }
+
+    /* BLOG */
+    .post {
+      padding: 10px 0;
+      border-bottom: 1px solid #111122;
+    }
+
+    .post:last-child { border-bottom: none; }
+
+    .post-title {
+      font-size: 13px;
+      color: #e0e0e8;
+      margin-bottom: 3px;
+    }
+
+    .post-meta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: #444;
+    }
+
+    .post-meta .tag {
+      color: #ff6b1a;
+      margin-left: 8px;
+    }
+
+    /* YOUTUBE */
+    .yt-section {
+      margin-bottom: 48px;
+    }
+
+    .yt-placeholder {
+      background: #0f0f1a;
+      border: 1px solid #1a1a2e;
+      border-radius: 6px;
+      padding: 48px 32px;
+      text-align: center;
+    }
+
+    .yt-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(255,107,26,0.1);
+      border: 2px solid rgba(255,107,26,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .yt-play {
+      width: 0; height: 0;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-left: 20px solid #ff6b1a;
+      margin-left: 4px;
+    }
+
+    .yt-text {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      color: #555;
+      letter-spacing: 2px;
+    }
+
+    .yt-cta {
+      display: inline-block;
+      margin-top: 16px;
+      background: rgba(255,107,26,0.1);
+      border: 1px solid rgba(255,107,26,0.4);
+      border-radius: 4px;
+      padding: 8px 24px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px;
+      color: #ff6b1a;
+      text-decoration: none;
+      letter-spacing: 2px;
+    }
+
+    .yt-cta:hover { background: rgba(255,107,26,0.2); }
+
+    /* FOOTER */
+    footer {
+      background: #050508;
+      border-top: 1px solid #1a1a2e;
+      padding: 20px 32px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      color: #333;
+      letter-spacing: 1px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer-logo { color: #ffcc00; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO — reemplazar src con tu foto del shack -->
+  <div class="hero">
+    <div class="hero-topbar"></div>
+
+    <!-- OPCION A: con foto — descomentar y poner URL de tu foto -->
+    <!-- <img class="hero-img" src="shack.jpg" alt="El Shack de LU2WBA"> -->
+
+    <!-- OPCION B: placeholder hasta tener la foto -->
+    <div class="hero-placeholder">
+      <div style="font-family:'Share Tech Mono',monospace; font-size:13px; color:#222; letter-spacing:4px;">[ FOTO DEL SHACK ]</div>
+    </div>
+
+    <div class="hero-overlay">
+      <div class="logo">Ben<span>Kenobi</span></div>
+      <div class="tagline">Chispas &amp; Cables &mdash; Comodoro Rivadavia, Patagonia Argentina</div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span>&gt;</span> Tech / Maker</div>
+        <div class="hero-stat"><span>&gt;</span> Home Automation</div>
+        <div class="hero-stat"><span>&gt;</span> SDR / Radio</div>
+        <div class="hero-stat"><span>&gt;</span> Raspberry Pi</div>
+        <div class="hero-stat"><span>&gt;</span> Hacking</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#proyectos" class="active">Proyectos</a>
+      <a href="#tutoriales">Tutoriales</a>
+      <a href="#arsenal">Arsenal</a>
+      <a href="#blog">Blog</a>
+      <a href="#youtube">YouTube</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- PROYECTOS -->
+    <div id="proyectos">
+      <div class="section-title">// proyectos destacados</div>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <div class="project-icon">&#128247;</div>
+          <div class="project-title">Home Surveillance AI</div>
+          <div class="project-desc">Sistema de camaras con deteccion de personas y objetos en tiempo real. Frigate + TFLite sobre Raspberry Pi 5 con 8 camaras integradas.</div>
+          <span class="project-tag">Frigate + Home Assistant</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">&#128225;</div>
+          <div class="project-title">APRS GPS Tracker</div>
+          <div class="project-desc">Beacon GPS en vivo desde Patagonia hacia aprs.fi. Python + gpsd + u-blox 7. Servidor KML para Google Earth en tiempo real.</div>
+          <span class="project-tag">Pi3B + GPS + APRS</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">&#128268;</div>
+          <div class="project-title">SDR Station</div>
+          <div class="project-desc">Caza de radiosondas RS41, recepcion ADS-B de aviones y escucha de satelites con RTL-SDR desde la Patagonia.</div>
+          <span class="project-tag">RTL-SDR</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">&#128663;</div>
+          <div class="project-title">Mobile Lab / Kangoo</div>
+          <div class="project-desc">Laboratorio movil en Kangoo 2008. Pi3B con OBD2, GPS, dashcam y pantalla 7". Opera offline y sincroniza con La Torre.</div>
+          <span class="project-tag">Proyecto Kangoo</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">&#128421;</div>
+          <div class="project-title">Network OVERSIGHT</div>
+          <div class="project-desc">Infraestructura de red completa con Mikrotik RB2011, hAP ac, Tailscale VPN y acceso remoto seguro desde cualquier lugar.</div>
+          <span class="project-tag">Mikrotik + Tailscale</span>
+        </div>
+
+        <div class="project-card">
+          <div class="project-icon">&#128296;</div>
+          <div class="project-title">Rubber Ducky DIY</div>
+          <div class="project-desc">Emulador de teclado HID con Arduino Pro Micro. Inyeccion de payloads USB — la version maker del clasico Rubber Ducky.</div>
+          <span class="project-tag">Arduino Pro Micro</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ARSENAL + BLOG -->
+    <div id="arsenal" class="two-col">
+
+      <div class="panel">
+        <div class="section-title">// arsenal</div>
+        <div class="arsenal-item"><span class="arsenal-label">Compute principal</span><span class="arsenal-value">Raspberry Pi 5</span></div>
+        <div class="arsenal-item"><span class="arsenal-label">Compute movil</span><span class="arsenal-value">Raspberry Pi 3B x2</span></div>
+        <div class="arsenal-item"><span class="arsenal-label">Router core</span><span class="arsenal-value">Mikrotik RB2011</span></div>
+        <div class="arsenal-item"><span class="arsenal-label">AP</span><span class="arsenal-value">Mikrotik hAP ac</span></div>
+        <div class="arsenal-item"><span class="arsenal-label">SDR</span><span class="arsenal-value">RTL-SDR USB</span></div>
+        <div class="arsenal-item"><span class="arsenal-label">GPS</span><span class="arsenal-value">u-blox 7</span></div>
+        <div class="arsenal-item"><span class="arsenal-label">Hacking</span><span class="arsenal-value">Flipper Zero Unleashed</span></div>
+        <div class="arsenal-item"><span class="arsenal-label">MCU</span><span class="arsenal-value">Arduino Pro Micro</span></div>
+        <div class="arsenal-item"><span class="arsenal-label">Automation</span><span class="arsenal-value">Home Assistant OS</span></div>
+        <div class="arsenal-item"><span class="arsenal-label">VPN</span><span class="arsenal-value">Tailscale</span></div>
+      </div>
+
+      <div id="blog" class="panel">
+        <div class="section-title">// ultimas entradas</div>
+        <div class="post">
+          <div class="post-title">APRS beacon en vivo desde la Patagonia</div>
+          <div class="post-meta">26 ABR 2026 <span class="tag">GPS / RADIO</span></div>
+        </div>
+        <div class="post">
+          <div class="post-title">Frigate con CPU TFLite en Raspberry Pi 5</div>
+          <div class="post-meta">24 ABR 2026 <span class="tag">AI / CAMARAS</span></div>
+        </div>
+        <div class="post">
+          <div class="post-title">Mikrotik RB2011 desde cero — guia completa</div>
+          <div class="post-meta">22 ABR 2026 <span class="tag">REDES</span></div>
+        </div>
+        <div class="post">
+          <div class="post-title">Kangoo Lab Movil — primera salida de prueba</div>
+          <div class="post-meta">20 ABR 2026 <span class="tag">PROYECTOS</span></div>
+        </div>
+        <div class="post">
+          <div class="post-title">Flipper Zero Unleashed — primeros experimentos</div>
+          <div class="post-meta">18 ABR 2026 <span class="tag">HACKING</span></div>
+        </div>
+        <div class="post">
+          <div class="post-title">Home Assistant OS en Pi5 — instalacion limpia</div>
+          <div class="post-meta">16 ABR 2026 <span class="tag">DOMOTICA</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- YOUTUBE -->
+    <div id="youtube" class="yt-section">
+      <div class="section-title">// canal youtube</div>
+      <div class="yt-placeholder">
+        <div class="yt-icon"><div class="yt-play"></div></div>
+        <div class="yt-text">Benkenobi &mdash; Chispas &amp; Cables &mdash; proximamente</div>
+        <br>
+        <a href="https://youtube.com" class="yt-cta">Suscribirse &rarr;</a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span><span class="footer-logo">Benkenobi</span> &mdash; Chispas &amp; Cables</span>
+      <span>Comodoro Rivadavia, Patagonia Argentina &mdash; GMT-3</span>
+      <span>Made with &#9889; and too much mate</span>
+    </div>
+  </footer>
+
+</body>
+</html>
